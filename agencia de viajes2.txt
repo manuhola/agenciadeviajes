@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Planificador de Viajes</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family:'Raleway', sans-serif; 
+            background-color: #fcfcfb;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #1b4d8f;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header img {
+            height: 50px;
+            vertical-align: middle;
+        }
+        header h1 {
+            display: inline;
+            margin-left: 10px;
+            font-size: 36px;
+            vertical-align: middle;
+        }
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        .options {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .options button {
+            background-color: #315dbb;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .options button:hover {
+            background-color: #315dbb;
+        }
+        .form-section {
+            display: none;
+            margin-top: 20px;
+        }
+        .form-section select,
+        .form-section input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .form-section label {
+            font-weight: bold;
+        }
+        #result {
+            background-color: #caf0f8;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        #result h2 {
+            color: #0077b6;
+        }
+        /* Estilos para el botón "Quiero el viaje" */
+        #action-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #action-section button {
+            background-color: #d00000;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #action-section button:hover {
+            background-color: #9d0208;
+        }
+        /* Estilos para el formulario de datos personales */
+        #personal-info-section input,
+        #personal-info-section select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        
+    </style>
+</head>
+<body>
+
+<header>
+    <!-- Ruta actualizada del logo -->
+    <img src=C:\Users\manue\OneDrive\Documentos\planeador_viajes\img\Logo.png>
+    <h1>Voyago</h1>
+    <p>¡Haz realidad el viaje de tus sueños ahorrando con nosotros!</p>
+    <style>
+        header img {
+            height: 200px; /* Aquí aumentamos el tamaño del logo */
+            vertical-align: middle;
+        }
+        header h1 {
+            display: inline;
+            margin-left: 10px;
+            font-size: 36px;
+            vertical-align: middle;
+        }
+    </style>    
+</header>
+
+<main>
+    <div class="options">
+        <button onclick="chooseTrip('nacional')">Viaje Nacional</button>
+        <button onclick="chooseTrip('internacional')">Viaje Internacional</button>
+    </div>
+
+    <div id="destination-section" class="form-section">
+        <label for="destination">Seleccione su destino:</label>
+        <select id="destination"></select>
+    </div>
+
+    <div id="city-section" class="form-section">
+        <label for="city">Seleccione la ciudad:</label>
+        <select id="city"></select>
+    </div>
+
+    <div id="details-section" class="form-section">
+        <label for="numPeople">Número de personas que viajan:</label>
+        <input type="number" id="numPeople" min="1" value="1">
+
+        <label for="numDays">Número de días de estancia:</label>
+        <input type="number" id="numDays" min="1" value="1">
+
+        <label for="travelMonth">Mes en el que planea hacer el viaje:</label>
+        <input type="month" id="travelMonth">
+
+        <button onclick="calculateSavings()">Calcular Ahorro Mensual</button>
+    </div>
+
+    <div id="result" class="form-section">
+        <h2>Resultado</h2>
+        <p id="resultText"></p>
+        <div id="action-section">
+            <button onclick="continueProcess()">Quiero el viaje</button>
+        </div>
+    </div>
+
+    <div id="personal-info-section" class="form-section">
+        <h2>Datos Personales</h2>
+        <label for="firstName">Nombres:</label>
+        <input type="text" id="firstName">
+
+        <label for="lastName">Apellidos:</label>
+        <input type="text" id="lastName">
+
+        <label for="documentType">Tipo de Documento:</label>
+        <select id="documentType">
+            <option value="cedula">Cédula</option>
+            <option value="cedula_extranjeria">Cédula de Extranjería</option>
+        </select>
+
+        <label for="documentNumber">Número de Documento:</label>
+        <input type="text" id="documentNumber">
+
+        <label for="birthDate">Fecha de Nacimiento:</label>
+        <input type="date" id="birthDate">
+
+        <label for="issueDate">Fecha de Expedición del Documento:</label>
+        <input type="date" id="issueDate">
+
+        <label for="phoneNumber">Número de Teléfono:</label>
+        <input type="tel" id="phoneNumber">
+
+        <button onclick="showCodeSection()">Continuar</button>
+    </div>
+
+    <div id="code-section" class="form-section">
+        <h2>Verificación de Código</h2>
+        <label for="code">Ingrese Código:</label>
+        <input type="text" id="code">
+
+        <button onclick="validateCode()">Continuar</button>
+    </div>
+
+    <div id="payment-plan-section" class="form-section">
+        <h2>Plan de Pagos</h2>
+        <p id="paymentPlanText"></p>
+    </div>
+</main>
+
+<script>
+    // Datos de los destinos y costos (simplificado para este ejemplo)
+    const data = {
+        nacional: {
+            'Bogotá': { flight: 247400, hotelPerNight: 150000, tourPerDay: 75000 },
+            'Cartagena': { flight: 382040, hotelPerNight:200000, tourPerDay: 200000 },
+            
+        },
+        internacional: {
+            'México': {
+                'Ciudad de México': { flight: 1070101, hotelPerNight:275000, tourPerDay: 75000},
+                          },
+            'España': {
+                'Madrid': { flight: 2532350, hotelPerNight: 270000, tourPerDay: 200000 },
+                     }
+    };
+
+    let tripType = '';
+    let selectedDestination = '';
+    let selectedCity = '';
+    const interestRate = 0.02; // 2% interés mensual que se queda la empresa
+    let monthsLeft = 0;
+    let adjustedSavings = 0;
+    let paymentDates = [];
+
+    function chooseTrip(type) {
+        tripType = type;
+        document.getElementById('destination').innerHTML = '';
+        let destinations = type === 'nacional' ? Object.keys(data.nacional) : Object.keys(data.internacional);
+        destinations.forEach(dest => {
+            let option = document.createElement('option');
+            option.value = dest;
+            option.textContent = dest;
+            document.getElementById('destination').appendChild(option);
+        });
+        document.getElementById('destination-section').style.display = 'block';
+        document.getElementById('city-section').style.display = 'none';
+        document.getElementById('details-section').style.display = 'none';
+        document.getElementById('result').style.display = 'none';
+        document.getElementById('personal-info-section').style.display = 'none';
+        document.getElementById('code-section').style.display = 'none';
+        document.getElementById('payment-plan-section').style.display = 'none';
+    }
+
+    document.getElementById('destination').addEventListener('change', function() {
+        selectedDestination = this.value;
+        if (tripType === 'internacional') {
+            document.getElementById('city').innerHTML = '';
+            let cities = Object.keys(data.internacional[selectedDestination]);
+            cities.forEach(city => {
+                let option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                document.getElementById('city').appendChild(option);
+            });
+            document.getElementById('city-section').style.display = 'block';
+        } else {
+            selectedCity = selectedDestination;
+            document.getElementById('city-section').style.display = 'none';
+            document.getElementById('details-section').style.display = 'block';
+        }
+    });
+
+    document.getElementById('city').addEventListener('change', function() {
+        selectedCity = this.value;
+        document.getElementById('details-section').style.display = 'block';
+    });
+
+    function calculateSavings() {
+        let numPeople = parseInt(document.getElementById('numPeople').value);
+        let numDays = parseInt(document.getElementById('numDays').value);
+        let travelMonth = document.getElementById('travelMonth').value;
+
+        if (!travelMonth) {
+            alert('Por favor, seleccione el mes en el que planea hacer el viaje.');
+            return;
+        }
+
+        let today = new Date();
+        let travelDate = new Date(travelMonth + '-01');
+        monthsLeft = (travelDate.getFullYear() - today.getFullYear()) * 12 + (travelDate.getMonth() - today.getMonth());
+
+        if (monthsLeft <= 0) {
+            alert('El mes de viaje debe ser posterior al mes actual.');
+            return;
+        }
+
+        // Obtener costos
+        let destinationData;
+        if (tripType === 'nacional') {
+            destinationData = data.nacional[selectedCity];
+        } else {
+            destinationData = data.internacional[selectedDestination][selectedCity];
+        }
+
+        let totalFlightCost = destinationData.flight * numPeople;
+        let totalHotelCost = destinationData.hotelPerNight * numDays * numPeople;
+        let totalTourCost = destinationData.tourPerDay * numDays * numPeople;
+        let totalCost = totalFlightCost + totalHotelCost + totalTourCost;
+
+        // Calcular ahorro mensual requerido
+        let monthlySavings = totalCost / monthsLeft;
+
+        // Ajustar por interés que se queda la empresa
+        adjustedSavings = monthlySavings / (1 - interestRate);
+
+        // Generar fechas de pago
+        paymentDates = [];
+        for (let i = 1; i <= monthsLeft; i++) {
+            let paymentDate = new Date();
+            paymentDate.setMonth(paymentDate.getMonth() + i);
+            paymentDates.push(paymentDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long' }));
+        }
+
+        let resultText = `
+            <strong>Destino:</strong> ${selectedCity} (${selectedDestination})<br>
+            <strong>Número de Personas:</strong> ${numPeople}<br>
+            <strong>Número de Días:</strong> ${numDays}<br>
+            <strong>Fecha del Viaje:</strong> ${travelDate.toLocaleString('es-ES', { month: 'long', year: 'numeric' })}<br>
+            <strong>Total a Ahorrar:</strong> $${totalCost.toFixed(2)}<br>
+            <strong>Meses Restantes:</strong> ${monthsLeft}<br>
+            <strong>Ahorro Mensual Requerido:</strong> $${adjustedSavings.toFixed(2)}<br>
+            <em>(Considerando un interés del ${interestRate * 100}% que retiene la empresa)</em>
+        `;
+        document.getElementById('resultText').innerHTML = resultText;
+        document.getElementById('result').style.display = 'block';
+    }
+
+    function continueProcess() {
+        document.getElementById('personal-info-section').style.display = 'block';
+        document.getElementById('payment-plan-section').style.display = 'none';
+    }
+
+    function showCodeSection() {
+        // Validar que los campos de datos personales estén llenos (opcional)
+        // Ocultar sección de datos personales y mostrar sección de código
+        document.getElementById('personal-info-section').style.display = 'none';
+        document.getElementById('code-section').style.display = 'block';
+    }
+
+    function validateCode() {
+        let code = document.getElementById('code').value.trim();
+        if (code !== 'ING3C0') {
+            alert('Código incorrecto. Por favor, inténtelo nuevamente.');
+            return;
+        }
+        // Mostrar plan de pagos después de validar el código
+        document.getElementById('code-section').style.display = 'none';
+        let paymentPlanText = '<strong>Plan de Pagos:</strong><br><ul>';
+        paymentDates.forEach((date, index) => {
+            paymentPlanText += `<li>Cuota ${index + 1} - Fecha de Pago: ${date} - Valor: $${adjustedSavings.toFixed(2)}</li>`;
+        });
+        paymentPlanText += '</ul>';
+        document.getElementById('paymentPlanText').innerHTML = paymentPlanText;
+        document.getElementById('payment-plan-section').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
